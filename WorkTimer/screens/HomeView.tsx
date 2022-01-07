@@ -7,11 +7,11 @@ import useColorScheme from "../hooks/useColorScheme";
 import i18n from "./i18n/i18n";
 import React from "react";
 import moment from "moment";
-import styles from "./styles/TabTwoScreenStyle";
+import styles from "./styles/HomeViewStyle";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import StopWatchButton from "./components/StopWatchButton";
-class TabTwoScreen extends React.Component {
+class HomeView extends React.Component {
   constructor(props) {
     super(props);
 
@@ -122,7 +122,11 @@ class TabTwoScreen extends React.Component {
             style={styles.finishContainer}
             onPress={() => {
               this.clearTimer();
-
+              console.log(
+                "finish counting and navigation to the next page",
+                time
+              );
+              this.props.navigation.navigate("Finish");
               this.setState({
                 time: 0,
               });
@@ -136,4 +140,4 @@ class TabTwoScreen extends React.Component {
   }
 }
 
-export default TabTwoScreen;
+export default HomeView;

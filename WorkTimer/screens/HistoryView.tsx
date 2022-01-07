@@ -4,9 +4,9 @@ import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
 
-export default function TabOneScreen({
+export default function HistoryView({
   navigation,
-}: RootTabScreenProps<"TabOne">) {
+}: RootTabScreenProps<"History">) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>History</Text>
@@ -15,7 +15,7 @@ export default function TabOneScreen({
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+      <EditScreenInfo path="/screens/HistoryView.tsx" />
     </View>
   );
 }

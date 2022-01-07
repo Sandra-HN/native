@@ -3,8 +3,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingBottom: 50,
+    paddingTop: 100,
   },
   finishContainer: {
     justifyContent: "space-between",
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 50,
+    lineHeight: 150,
   },
   separator: {
     marginVertical: 30,
