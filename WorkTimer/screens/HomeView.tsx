@@ -60,6 +60,7 @@ class HomeView extends React.Component {
     }
   }
   startTimer() {
+    console.log("startTimer");
     this.clearTimer();
     this.timerIntervalId = setInterval(() => {
       const { time, paused } = this.state;
