@@ -65,7 +65,7 @@ function RootNavigator() {
       <Stack.Screen
         name="Finish"
         component={FinishView}
-        options={{ headerShown: false }}
+        // options={{ headerShown: false }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />

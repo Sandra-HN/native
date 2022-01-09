@@ -1,4 +1,4 @@
-import { AppState, TouchableOpacity } from "react-native";
+import { AppState, SafeAreaView, TouchableOpacity } from "react-native";
 
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
@@ -6,7 +6,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import useColorScheme from "../hooks/useColorScheme";
 import i18n from "./i18n/i18n";
 import React from "react";
-import moment from "moment";
 import styles from "./styles/HomeViewStyle";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -94,48 +93,50 @@ class HomeView extends React.Component {
   render() {
     const { time, paused } = this.state;
     return (
-      <View style={styles.container}>
-        {/* <View
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          {/* <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
       <EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */}
-        <Text style={styles.title}>
-          {i18n.HOME.WELCOME_HEADER}
-          <this.TabBarIcon name="sun-o" color={"#f2f542"} />
-        </Text>
-        <View
-          style={{
-            flex: 2,
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <StopWatchButton
-            paused={paused}
-            time={time}
-            timeOnPressAction={this.pauseTimer}
-            startOnPressAction={this.startTimer}
-          />
-          <TouchableOpacity
-            style={styles.finishContainer}
-            onPress={() => {
-              this.clearTimer();
-              console.log(
-                "finish counting and navigation to the next page",
-                time
-              );
-              this.props.navigation.navigate("Finish");
-              this.setState({
-                time: 0,
-              });
+          <Text style={styles.title}>
+            {i18n.HOME.WELCOME_HEADER}
+            <this.TabBarIcon name="sun-o" color={"#f2f542"} />
+          </Text>
+          <View
+            style={{
+              flex: 2,
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
-            <Text style={styles.finish}>{i18n.HOME.FINISH}</Text>
-          </TouchableOpacity>
+            <StopWatchButton
+              paused={paused}
+              time={time}
+              timeOnPressAction={this.pauseTimer}
+              startOnPressAction={this.startTimer}
+            />
+            <TouchableOpacity
+              style={styles.finishContainer}
+              onPress={() => {
+                this.clearTimer();
+                console.log(
+                  "finish counting and navigation to the next page",
+                  time
+                );
+                this.props.navigation.navigate("Finish", { timeSpent: time });
+                this.setState({
+                  time: 0,
+                });
+              }}
+            >
+              <Text style={styles.finish}>{i18n.HOME.FINISH}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

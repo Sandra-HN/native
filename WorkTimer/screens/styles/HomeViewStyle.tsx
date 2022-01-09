@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingBottom: 50,
-    paddingTop: 100,
+    //paddingTop: 100,
   },
   finishContainer: {
     justifyContent: "space-between",

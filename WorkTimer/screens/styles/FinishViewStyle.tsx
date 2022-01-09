@@ -2,24 +2,43 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingBottom: 50,
-    paddingTop: 100,
   },
-  finishContainer: {
+  actionsContainer: {
+    flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: 65,
   },
-  finish: {
-    fontSize: 60,
-    fontWeight: "bold",
-    color: "#ea4c4c",
+  btnText: {
+    fontSize: 24,
+    textTransform: "lowercase",
+  },
+  button: {
+    height: 44,
+    width: 134,
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  activityNameLabel: {
+    fontSize: 16,
+  },
+  activityNameInput: {
+    fontSize: 16,
+    borderRadius: 5,
+    borderColor: "#848484",
+    borderWidth: 1,
+    height: 44,
+    marginTop: 7,
   },
   title: {
     fontSize: 40,
-    fontWeight: "bold",
+    flex: 2,
     textAlign: "center",
-    lineHeight: 150,
+  },
+  subtitle: {
+    fontSize: 40,
+    flex: 2,
+    textAlign: "center",
   },
   separator: {
     marginVertical: 30,
