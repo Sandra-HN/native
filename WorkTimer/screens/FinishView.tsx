@@ -14,11 +14,13 @@ import i18n from "./i18n/i18n";
 import ResponsiveCentered from "./ResponsiveCentered";
 import styles from "./styles/FinishViewStyle";
 
+import { ACTIVITY_STORAGE_KEY } from "./config/consts";
+
 const FinishView = (props) => {
   const [name, setName] = useState("");
   const timeSpent = props.route.params.timeSpent;
   const saveTime = async () => {
-    const storageKey = "@activities";
+    const storageKey = ACTIVITY_STORAGE_KEY;
     let activities = await AsyncStorage.getItem(storageKey);
 
     if (activities === null) {
@@ -32,7 +34,6 @@ const FinishView = (props) => {
       timeSpent,
       date,
     });
-    console.log("activities", activities);
     await AsyncStorage.setItem(storageKey, JSON.stringify(activities));
     props.navigation.goBack();
   };

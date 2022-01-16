@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { ACTIVITY_STORAGE_KEY } from "./config/consts";
 
 export default class HistoryView extends Component {
   constructor(props) {
@@ -21,15 +22,13 @@ export default class HistoryView extends Component {
     props.navigation.addListener("focus", this.getActivities);
   }
   async getActivities() {
-    const storageKey = "@activities";
+    const storageKey = ACTIVITY_STORAGE_KEY;
     let activities = await AsyncStorage.getItem(storageKey);
     let parseActivities = [];
     if (activities !== null) {
       parseActivities = JSON.parse(activities);
     }
-    this.setState({ parseActivities }, () => {
-      console.log(parseActivities);
-    });
+    this.setState({ parseActivities: parseActivities.reverse() });
   }
   renderItem({ item }) {
     return (

@@ -25,11 +25,6 @@ const linking: LinkingOptions<RootStackParamList> = {
               HomeView: "home",
             },
           },
-          Finish: {
-            screens: {
-              FinishView: "finish",
-            },
-          },
         },
       },
       Modal: "modal",

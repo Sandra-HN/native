@@ -24,8 +24,6 @@ import ViewImageScreen from "./app/screens/ViewImageScreen";
 export default function App() {
   const { landscape } = useDeviceOrientation();
 
-  console.log(useDimensions(), useDeviceOrientation());
-  const handlePress = () => console.log("text clicked");
   return <ViewImageScreen />;
 }
 

@@ -88,7 +88,15 @@ function BottomTabNavigator() {
       initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarInactiveTintColor: Colors[colorScheme].tintInactive,
         headerShown: false,
+        tabBarShowLabel: false,
+        tabBarItemStyle: {
+          backgroundColor: "#E0E0E0",
+          borderColor: "rgba(140, 140, 140, 0.8)",
+          borderTopWidth: 1,
+        },
+        tabBarLabelStyle: { fontSize: 20 },
       }}
     >
       <BottomTab.Screen
@@ -143,5 +151,5 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={40} style={{ marginBottom: -3 }} {...props} />;
 }

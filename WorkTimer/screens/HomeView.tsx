@@ -10,6 +10,12 @@ import styles from "./styles/HomeViewStyle";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import StopWatchButton from "./components/StopWatchButton";
+import {
+  APP_STATE_CHANGED_TIMESTAMP_STORAGE_KEY,
+  IS_PAUSED_STORAGE_KEY,
+  TIME_STORAGE_KEY,
+} from "./config/consts";
+import { initialWindowMetrics } from "react-native-safe-area-context";
 class HomeView extends React.Component {
   constructor(props) {
     super(props);
@@ -18,9 +24,10 @@ class HomeView extends React.Component {
       time: 0,
       paused: false,
     };
-    this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
+    this.handleAppStateChange("initial");
   }
   componentDidMount() {
     AppState.addEventListener("change", this.handleAppStateChange);
@@ -33,17 +40,16 @@ class HomeView extends React.Component {
     console.log("change", nextAppState);
     const now = new Date().getTime();
     const { time, paused } = this.state;
-    const readtime = parseInt(await AsyncStorage.getItem("@time"));
+    const readtime = parseInt(await AsyncStorage.getItem(TIME_STORAGE_KEY));
     const readappStateChangedTimeStamp = parseInt(
-      await AsyncStorage.getItem("@appStateChangedTimeStamp")
+      await AsyncStorage.getItem(APP_STATE_CHANGED_TIMESTAMP_STORAGE_KEY)
     );
 
     const timeDiff = now - readappStateChangedTimeStamp;
     const newTime = readtime + timeDiff;
+    const isPaused = await AsyncStorage.getItem(IS_PAUSED_STORAGE_KEY);
 
-    const isPaused = await AsyncStorage.getItem("@isPaused");
-
-    if (nextAppState == "active") {
+    if (nextAppState == "active" || nextAppState == "initial") {
       let waspaused = isPaused && isPaused == "true";
       let newstate = { time: readtime, paused: waspaused };
       if (!waspaused) {
@@ -52,27 +58,24 @@ class HomeView extends React.Component {
       this.setState(newstate, this.startTimer);
     } else {
       await AsyncStorage.setItem(
-        "@isPaused",
+        IS_PAUSED_STORAGE_KEY,
         paused === true ? "true" : "false"
       );
-      await AsyncStorage.setItem("@time", time + "");
-      await AsyncStorage.setItem("@appStateChangedTimeStamp", now + "");
+      await AsyncStorage.setItem(TIME_STORAGE_KEY, time + "");
+      await AsyncStorage.setItem(
+        APP_STATE_CHANGED_TIMESTAMP_STORAGE_KEY,
+        now + ""
+      );
     }
   }
   startTimer() {
-    console.log("startTimer");
     this.clearTimer();
     this.timerIntervalId = setInterval(() => {
       const { time, paused } = this.state;
       if (!paused) {
-        this.setState(
-          {
-            time: time + 1000,
-          },
-          () => {
-            console.log("press start", time);
-          }
-        );
+        this.setState({
+          time: time + 1000,
+        });
       }
     }, 1000);
   }
@@ -90,6 +93,28 @@ class HomeView extends React.Component {
     color: string;
   }) {
     return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+  }
+  renderFinishButton() {
+    const { time, paused } = this.state;
+    if (time && !paused) {
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            this.clearTimer();
+            console.log("FINISH COUNTING and NAVIGATE TO THE NEXT PAGE", time);
+            this.props.navigation.navigate("Finish", { timeSpent: time });
+            this.setState({
+              time: 0,
+            });
+          }}
+        >
+          <Text style={HomeViewStyles.finishButtonText}>
+            {i18n.HOME.FINISH_BTN_CAPTION}
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+    return null;
   }
   render() {
     const { time, paused } = this.state;
@@ -119,22 +144,21 @@ class HomeView extends React.Component {
               timeOnPressAction={this.pauseTimer}
               startOnPressAction={this.startTimer}
             />
-            <TouchableOpacity
-              style={styles.finishContainer}
-              onPress={() => {
-                this.clearTimer();
-                console.log(
-                  "finish counting and navigation to the next page",
-                  time
-                );
-                this.props.navigation.navigate("Finish", { timeSpent: time });
-                this.setState({
-                  time: 0,
-                });
-              }}
-            >
-              <Text style={styles.finish}>{i18n.HOME.FINISH}</Text>
-            </TouchableOpacity>
+            {time > 0 ? (
+              <TouchableOpacity
+                style={styles.finishContainer}
+                onPress={() => {
+                  this.clearTimer();
+
+                  this.props.navigation.navigate("Finish", { timeSpent: time });
+                  this.setState({
+                    time: 0,
+                  });
+                }}
+              >
+                <Text style={styles.finish}>{i18n.HOME.FINISH}</Text>
+              </TouchableOpacity>
+            ) : null}
           </View>
         </View>
       </SafeAreaView>

@@ -5,15 +5,19 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 40,
+    paddingBottom: 20,
     textAlign: "center",
+    fontWeight: "bold",
     borderBottomWidth: 1,
     borderBottomColor: "#EAEAEA",
   },
   name: {
-    fontSize: 18,
+    fontSize: 26,
+    textAlign: "left",
   },
   textdate: {
-    fontSize: 14,
+    fontSize: 20,
+    lineHeight: 30,
   },
   timeContainer: {
     flex: 2,
@@ -27,7 +31,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#EAEAEA",
     justifyContent: "space-between",
     padding: 12,
-    height: 60,
+    height: 80,
   },
 });
 export default styles;
