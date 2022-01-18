@@ -3,12 +3,14 @@ import { StyleSheet, Text, View } from "react-native";
 import Contants from "expo-constants";
 import Home from "./screens/Home/Home";
 import EmployeeCreate from "./screens/Employee/EmployeeCreate";
+import Profile from "./screens/Profile/Profile";
 
 export default function App() {
   return (
     <View style={styles.container}>
       {/* <Home /> */}
-      <EmployeeCreate />
+      {/* <EmployeeCreate /> */}
+      <Profile />
     </View>
   );
 }
