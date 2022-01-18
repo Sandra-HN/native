@@ -47,57 +47,71 @@ const EmployeeCreate = () => {
       />
 
       <Button
-        icon="camera"
+        style={styles.inputStyle}
+        icon="upload"
         mode="contained"
+        theme={theme}
         onPress={() => {
-          console.log("pressed");
           setModal(true);
         }}
       >
-        Press Me
+        Upload Image
+      </Button>
+      <Button
+        style={styles.inputStyle}
+        icon="content-save"
+        mode="contained"
+        theme={theme}
+        onPress={() => {
+          console.log("saved");
+        }}
+      >
+        Save
       </Button>
       <Modal
         animationType="slide"
-        transparent={false}
+        transparent={true}
         visible={modal}
         onRequestClose={() => {
           console.log("pressed");
-
           setModal(false);
         }}
       >
-        <View>
+        <View style={styles.modalView}>
           <View style={styles.modalButtonView}>
             <Button
               icon="camera"
+              theme={theme}
               mode="contained"
+              style={styles.inputStyle}
               onPress={() => {
                 console.log("pressed");
-                setModal(false);
               }}
             >
-              cancel
+              Camera
             </Button>
             <Button
-              icon="camera"
+              icon="image-area"
+              theme={theme}
               mode="contained"
+              style={styles.inputStyle}
               onPress={() => {
                 console.log("pressed");
-                setModal(false);
               }}
             >
-              cancel
+              Gallery
             </Button>
           </View>
           <Button
-            icon="camera"
+            // icon="camera"
             // mode="contained"
+            theme={theme}
+            style={styles.inputStyle}
             onPress={() => {
-              console.log("pressed");
               setModal(false);
             }}
           >
-            cancel
+            Cancel
           </Button>
         </View>
       </Modal>
