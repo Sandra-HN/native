@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View, Modal } from "react-native";
+import { View, Modal, Alert } from "react-native";
 import styles from "./EmployeeCreateStyle";
 import { TextInput, Button } from "react-native-paper";
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
 
 const EmployeeCreate = () => {
   const [name, setName] = useState("");
@@ -10,6 +12,69 @@ const EmployeeCreate = () => {
   const [salary, setSalary] = useState("");
   const [picture, setPicture] = useState("");
   const [modal, setModal] = useState(false);
+  const pickFormGallery = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("you need to give up permision to work");
+    } else {
+      let data = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.5,
+      });
+
+      if (!data.cancelled) {
+        let newFile = {
+          uri: data.uri,
+          type: `test/${data.uri.split(".")[1]}`,
+          name: `test.${data.uri.split(".")[1]}`,
+        };
+        handleUpload(newFile);
+      }
+    }
+  };
+
+  const pickFormCamera = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      // const { granted } = await Permissions.askAsync(Permissions.CAMERA);
+      // if (granted) {
+      Alert.alert("you need to give up permision to work");
+    } else {
+      let data = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.5,
+      });
+      if (!data.cancelled) {
+        let newFile = {
+          uri: data.uri,
+          type: `test/${data.uri.split(".")[1]}`,
+          name: `test.${data.uri.split(".")[1]}`,
+        };
+        handleUpload(newFile);
+      }
+    }
+  };
+
+  const handleUpload = (image) => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "employeeApp");
+    data.append("cloud_name", "dbypdflem");
+    fetch("http://api.cloudinary.com/v1_1/dbypdflem/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setPicture(data.url); //secure_url
+        setModal(false);
+      });
+  };
   return (
     <View style={styles.root}>
       <TextInput
@@ -48,7 +113,7 @@ const EmployeeCreate = () => {
 
       <Button
         style={styles.inputStyle}
-        icon="upload"
+        icon={picture == "" ? "upload" : "check"}
         mode="contained"
         theme={theme}
         onPress={() => {
@@ -84,9 +149,7 @@ const EmployeeCreate = () => {
               theme={theme}
               mode="contained"
               style={styles.inputStyle}
-              onPress={() => {
-                console.log("pressed");
-              }}
+              onPress={() => pickFormCamera()}
             >
               Camera
             </Button>
@@ -95,9 +158,7 @@ const EmployeeCreate = () => {
               theme={theme}
               mode="contained"
               style={styles.inputStyle}
-              onPress={() => {
-                console.log("pressed");
-              }}
+              onPress={() => pickFormGallery()}
             >
               Gallery
             </Button>
