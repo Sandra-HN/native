@@ -3,7 +3,11 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("./Employee");
+
+app.use(bodyParser.json());
+
 const Employee = mongoose.model("employee");
+
 const mongouri =
   "mongodb+srv://sandra:sandra.1995@cluster0.yljc7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
@@ -19,7 +23,53 @@ mongoose.connection.on("error", (err) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("welcome to node js");
+  Employee.find({})
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/send-data", (req, res) => {
+  const employee = new Employee({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    picture: req.body.picture,
+    salary: req.body.salary,
+    position: req.body.position,
+  });
+  employee
+    .save()
+    .then((data) => {
+      console.log(data);
+      res.send("success");
+    })
+    .catch((err) => console.log(err));
+});
+app.post("/delete", (req, res) => {
+  Employee.findByIdAndRemove(req.body.id)
+    .then((data) => {
+      console.log(data);
+      res.send("deleted");
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/update", (req, res) => {
+  Employee.findByIdAndUpdate(req.body.id, {
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    picture: req.body.picture,
+    salary: req.body.salary,
+    position: req.body.position,
+  })
+    .then((data) => {
+      console.log(data);
+      res.send("updated");
+    })
+    .catch((err) => console.log(err));
 });
 
 app.listen(3000, () => {
