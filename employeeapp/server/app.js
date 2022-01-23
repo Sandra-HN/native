@@ -25,6 +25,7 @@ mongoose.connection.on("error", (err) => {
 app.get("/", (req, res) => {
   Employee.find({})
     .then((data) => {
+      console.log(data);
       res.send(data);
     })
     .catch((err) => console.log(err));
@@ -42,8 +43,7 @@ app.post("/send-data", (req, res) => {
   employee
     .save()
     .then((data) => {
-      console.log(data);
-      res.send("success");
+      res.send(data);
     })
     .catch((err) => console.log(err));
 });
@@ -51,7 +51,7 @@ app.post("/delete", (req, res) => {
   Employee.findByIdAndRemove(req.body.id)
     .then((data) => {
       console.log(data);
-      res.send("deleted");
+      res.send(data);
     })
     .catch((err) => console.log(err));
 });
@@ -67,7 +67,7 @@ app.post("/update", (req, res) => {
   })
     .then((data) => {
       console.log(data);
-      res.send("updated");
+      res.send(data);
     })
     .catch((err) => console.log(err));
 });

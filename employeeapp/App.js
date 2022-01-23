@@ -1,10 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
-import Contants from "expo-constants";
+
 import Home from "./screens/Home/Home";
 import EmployeeCreate from "./screens/Employee/EmployeeCreate";
 import Profile from "./screens/Profile/Profile";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import { reducer } from "./reducers/reducer";
+
+const store = createStore(reducer);
+
 const Stack = createStackNavigator();
 const myOptions = {
   title: "My Sweet Home",
@@ -30,17 +36,16 @@ function App() {
           options={{ ...myOptions, title: "Profile" }}
         />
       </Stack.Navigator>
-      {/* <Home /> */}
-      {/* <EmployeeCreate /> */}
-      {/* <Profile /> */}
     </View>
   );
 }
 export default () => {
   return (
-    <NavigationContainer>
-      <App />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <App />
+      </NavigationContainer>
+    </Provider>
   );
 };
 const styles = StyleSheet.create({
