@@ -8,8 +8,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { reducer } from "./reducers/reducer";
-
-const store = createStore(reducer);
+import { createContext, useReducer } from "react";
+import { reducer, initState } from "./reducers/reducer";
+// const store = createStore(reducer);
+export const myContext = createContext();
 
 const Stack = createStackNavigator();
 const myOptions = {
@@ -40,12 +42,15 @@ function App() {
   );
 }
 export default () => {
+  const [state, dispatch] = useReducer(reducer, initState);
   return (
-    <Provider store={store}>
+    //<Provider store={store}>
+    <myContext.Provider value={{ state, dispatch }}>
       <NavigationContainer>
         <App />
       </NavigationContainer>
-    </Provider>
+    </myContext.Provider>
+    //</Provider>
   );
 };
 const styles = StyleSheet.create({

@@ -1,16 +1,20 @@
 import { Text, View, Image, FlatList, Alert } from "react-native";
 import { Card, FAB } from "react-native-paper";
 import styles from "./HomeStyle";
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import { myContext } from "../../App";
 const Home = ({ navigation }) => {
   // const [data, setData] = useState([]);
   // const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
-  const { data, loading } = useSelector((state) => {
-    return state;
-  });
+
+  // const dispatch = useDispatch();
+  // const { data, loading } = useSelector((state) => {
+  //   return state;
+  // });
+
+  const { state, dispatch } = useContext(myContext);
+  const { data, loading } = state;
   const fetchData = () => {
     fetch("http://10.0.2.2:3000/")
       .then((res) => res.json())

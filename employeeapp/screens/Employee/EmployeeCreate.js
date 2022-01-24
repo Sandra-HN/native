@@ -3,7 +3,6 @@ import { View, Modal, Alert, KeyboardAvoidingView } from "react-native";
 import styles from "./EmployeeCreateStyle";
 import { TextInput, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
-import * as Permissions from "expo-permissions";
 
 const EmployeeCreate = ({ navigation, route }) => {
   const getDetails = (type) => {
@@ -42,6 +41,7 @@ const EmployeeCreate = ({ navigation, route }) => {
   const [position, setPosition] = useState(getDetails("position"));
   const [modal, setModal] = useState(false);
   const [enableShift, setEnableShift] = useState(false);
+
   const updateDetails = () => {
     fetch("http://10.0.2.2:3000/update", {
       method: "post",
@@ -68,6 +68,7 @@ const EmployeeCreate = ({ navigation, route }) => {
         Alert.alert("something went wrong!");
       });
   };
+
   const submitData = () => {
     fetch("http://10.0.2.2:3000/send-data", {
       method: "post",
@@ -161,6 +162,7 @@ const EmployeeCreate = ({ navigation, route }) => {
         Alert.alert("something went wrong!");
       });
   };
+
   return (
     <KeyboardAvoidingView
       behavior="position"
